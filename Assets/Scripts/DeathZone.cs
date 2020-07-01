@@ -16,7 +16,7 @@ public class DeathZone : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             PlayerStatsController.instance.TakeDamage(30);
-            if (PlayerStatsController.instance.currentHealth > 0)
+            if (Player.instance.currentHealth > 0)
             {
                 StartCoroutine(ReplacePlayer(collision));
             } 

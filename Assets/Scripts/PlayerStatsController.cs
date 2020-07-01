@@ -7,17 +7,16 @@ public class PlayerStatsController : MonoBehaviour
     public string sceneName;
     public Animator fadeSystem;
 
-    public int maxHealth = 100;
-    public int currentHealth;
+    public Player player;
 
+    #region {OnDamaged}
     public bool isInvincible;
     public float invincibilityFlashDelay = 0.133f;
     public float invincibilityStopDelay = 1.5f;
+    #endregion
 
     public SpriteRenderer spriteRenderer;
-
     public HealthBarController healthBar;
-
     public static PlayerStatsController instance;
 
     private void Awake()
@@ -34,8 +33,9 @@ public class PlayerStatsController : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        player = Player.instance;
+        player.currentHealth = player.maxHealth;
+        healthBar.SetMaxHealth(player.maxHealth);
     }
 
     // Update is called once per frame
@@ -47,14 +47,14 @@ public class PlayerStatsController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int _damage)
     {
         if (!isInvincible)
         {
-            currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
+            player.currentHealth -= _damage;
+            healthBar.SetHealth(player.currentHealth);
 
-            if (currentHealth <= 0)
+            if (player.currentHealth <= 0)
             {
                 Die();
                 return;
@@ -66,18 +66,18 @@ public class PlayerStatsController : MonoBehaviour
         }        
     }
 
-    public void HealPlayer(int heal)
+    public void HealPlayer(int _heal)
     {
-        if ((currentHealth + heal) > maxHealth)
+        if ((player.currentHealth + _heal) > player.maxHealth)
         {
-            currentHealth = maxHealth;
+            player.currentHealth = player.maxHealth;
         } 
         else
         {
-            currentHealth += heal;            
+            player.currentHealth += _heal;            
         }
 
-        healthBar.SetHealth(currentHealth);
+        healthBar.SetHealth(player.currentHealth);
     }
 
     public void Die()
@@ -100,8 +100,8 @@ public class PlayerStatsController : MonoBehaviour
         PlayerController.instance.playerCollider.enabled = true;
         GameManager.instance.OnPlayerDeath();
 
-        currentHealth = maxHealth;
-        healthBar.SetHealth(currentHealth);
+        player.currentHealth = player.maxHealth;
+        healthBar.SetHealth(player.currentHealth);
     }
 
     public IEnumerator StartInvincibility()

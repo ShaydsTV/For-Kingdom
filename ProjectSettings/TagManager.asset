@@ -11,6 +11,7 @@ TagManager:
   - TutorialJumpUI
   - TutorialClimbUI
   - TutorialWarningUI
+  - AcceptQuestUI
   layers:
   - Default
   - TransparentFX

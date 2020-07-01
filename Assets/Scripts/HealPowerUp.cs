@@ -11,7 +11,7 @@ public class HealPowerUp : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (PlayerStatsController.instance.currentHealth < 100)
+            if (Player.instance.currentHealth < 100)
             {
                 // Heal()
                 PlayerStatsController.instance.HealPlayer(heal);
